@@ -51,12 +51,10 @@ sub _root_tag { 'user' }
 __PACKAGE__->mk_weewar_accessors;
 __PACKAGE__->mk_ro_accessors('rating');
 
-# hack
-package Weewar::Unit;
+package Weewar::Unit; # no need to bless units
 sub new { return $_[1]->{code} }
 
 1;
-
 
 __END__
 
