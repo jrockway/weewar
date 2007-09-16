@@ -36,6 +36,8 @@ sub _get_xml {
     return Weewar->_request("user/$name");
 }
 
+sub _root_tag { 'user' }
+
 # hack
 package Weewar::Unit;
 sub new { return $_[1]->{code} }

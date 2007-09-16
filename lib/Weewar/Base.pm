@@ -40,17 +40,17 @@ sub get {
     
     # data hasn't been loaded yet, so load it
     my $xml  = $self->_get_xml;
-    my $user = [$xml->getElementsByTagName('user')]->[0];
+    my $root_tag = [$xml->getElementsByTagName($self->_root_tag)]->[0];
 
     # get stuff that's in the root tag (<user name="..." id="...">)
     for ($self->_ATTRIBUTES){
-        $self->{$_} = $user->getAttributeNode($_)->value;
+        $self->{$_} = $root_tag->getAttributeNode($_)->value;
     }
 
     # get stuff that's text in a unique element (<points>1502</points>)
     for ($self->_ELEMENTS){
         eval {
-            $self->{$_} = [$user->getElementsByTagName($_)]->[0]->textContent;
+            $self->{$_} = [$root_tag->getElementsByTagName($_)]->[0]->textContent;
             $self->{$_} = undef if($self->{$_} eq 'false'); # make 'false' false
         };
         carp "We needed a $_ tag, but didn't see one" if $@;
@@ -84,7 +84,7 @@ sub get {
           sub { $_[0]->getAttributeNode($attribute)->value }:# get the attribute
           sub { $_[0]->textContent }; # otherwise get the text content
 
-        my @children = [$user->getElementsByTagName($key)]->[0]
+        my @children = [$root_tag->getElementsByTagName($key)]->[0]
                                     ->getElementsByTagName($name);
         $self->{$key} = [map {$class->new({$initname => $handler->($_)}) } 
                          @children];
