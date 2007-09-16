@@ -60,7 +60,7 @@ sub _get {
     my $ua = LWP::UserAgent->new;
     my $res = $ua->get("http://$server/$base/$path");
     
-    die "request error: ". $res->error if !$res->is_success;
+    croak 'request error: '. $res->status_line if !$res->is_success;
     return $res->decoded_content;
 }
 
