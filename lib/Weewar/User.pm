@@ -119,24 +119,89 @@ Weewar::User - a user of weewar
    # make a user
    my $user = WeeWar::User->new({ name => 'jrockway' });
 
-   # then get her data
+   # then get their data
    my $points = $user->points;
    my @units = $user->favorite_units
    my @games = $user->games;
+   # etc.
    
 =head1 METHODS
 
 =head2 name
 
+Returns the user's username.
+
 =head2 id
+
+Returns the user's id.
 
 =head2 points
 
 =head2 rating
 
+Returns the player's score, usually around 1500.
 
-my @ELEMENTS   = qw/points profile
-                    draws victories losses
-                    accountType readyToPlay gamesRunning lastLogin
-                    basesCaptured creditsSpent
-=cut
+=head2 profile
+
+Returns the URL of the user's profile page.
+
+=head2 draws
+
+Returns the number of times the user has ended a game with a draw.
+
+=head2 victories
+
+Returns the number of times the user has won.
+
+=head2 losses
+
+Returns the number of times the user has lost.
+
+=head2 account_type
+
+Returns the user's account type.
+
+=head2 ready_to_play
+
+Returns a boolean (undef or "true) indicating whether or not the
+user is "ready to play".
+
+=head2 games_running
+
+Returns the number of games the user is currently playing.
+
+=head2 last_login
+
+Returns a DateTime object representing the last time the user logged in.
+
+=head2 bases_captured
+
+Returns the number of basses the user has captured.
+
+=head2 credits_spent
+
+Returns the number of credits the user has spent.
+
+=head2 favoriteUnits
+
+Returns a list of the user's favorite units.
+
+=head2 preferred_players
+
+Returns a list of C<Weewar::User> objects representing the user's
+preferred players.
+
+=head2 preferred_by
+
+Returns a list of C<Weewar::User> objects representing players that
+prefer this user.
+
+=head2 games
+
+Returns a list of C<Weewar::Game> objects representing games that the
+user has played or is playing.
+
+=head1 SEE ALSO
+
+See L<Weewar> for the main docs.
+
