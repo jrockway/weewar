@@ -26,8 +26,28 @@ sub _LISTS {
     );
 }
 
-__PACKAGE__->mk_weewar_accessors;
-__PACKAGE__->mk_ro_accessors('rating');
+sub get {
+    my ($self, $what) = @_;
+    return $self->{rating} if($self->{rating} && $what eq 'points');
+    return $self->{points} if($self->{points} && $what eq 'rating');
+    return $self->SUPER::get($what);
+}
+
+sub _TRANSFORMS {
+    ( lastLogin => sub { 
+          $_[0] =~ /^(\d\d\d\d)-(\d\d)-(\d\d) (\d\d):(\d\d):(\d\d(?:[.]\d+)?)$/;
+          return DateTime->new( year => $1,
+                                month => $2,
+                                day => $3,
+                                hour => $4,
+                                minute => $5,
+                                second => $6,
+                              );
+      },
+      readyToPlay => __PACKAGE__->_TRANSFORM_BOOLEAN(),
+    )
+}
+
 
 sub _get_xml {
     my $self = shift;
@@ -37,6 +57,9 @@ sub _get_xml {
 }
 
 sub _root_tag { 'user' }
+
+__PACKAGE__->mk_weewar_accessors;
+__PACKAGE__->mk_ro_accessors('rating');
 
 # hack
 package Weewar::Unit;
