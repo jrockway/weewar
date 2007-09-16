@@ -4,6 +4,8 @@ package Weewar::User;
 use strict;
 use warnings;
 
+use Carp;
+require Weewar;
 use base 'Weewar::Base';
 
 # my own mini WSDL, i guess
@@ -24,12 +26,15 @@ sub _LISTS {
     );
 }
 
-__PACKAGE__->mk_ro_accessors('rating',
-    map { 
-        my $a = $_; 
-        $a =~ s/([a-z])([A-Z])/$1.'_'.(lc $2)/eg;
-        $a; 
-    } (_ATTRIBUTES, _ELEMENTS, keys %{{_LISTS()}}));
+__PACKAGE__->mk_weewar_accessors;
+__PACKAGE__->mk_ro_accessors('rating');
+
+sub _get_xml {
+    my $self = shift;
+    my $name = $self->{name};
+    croak "This user ($self) has no name" unless $name;
+    return Weewar->_request("user/$name");
+}
 
 # hack
 package Weewar::Unit;

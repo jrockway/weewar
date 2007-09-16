@@ -12,6 +12,17 @@ require Weewar::Game;
 
 use base 'Class::Accessor';
 
+sub mk_weewar_accessors {
+    my $class = shift;
+    $class->mk_ro_accessors
+      ( map { 
+          my $a = $_; 
+          $a =~ s/([a-z])([A-Z])/$1.'_'.(lc $2)/eg;
+          $a; 
+      } 
+        ($class->_ATTRIBUTES, $class->_ELEMENTS, keys %{{$class->_LISTS()}}));
+}
+
 sub get {
     my ($self, $what) = @_;
     $what =~ s/_([a-z])/uc $1/ge; # perl_style to javaStyle
@@ -28,10 +39,7 @@ sub get {
 
     
     # data hasn't been loaded yet, so load it
-    my $name = $self->{name};
-    croak "This user ($self) has no name" unless $name;
-    
-    my $xml  = Weewar->_request("user/$name");
+    my $xml  = $self->_get_xml;
     my $user = [$xml->getElementsByTagName('user')]->[0];
 
     # get stuff that's in the root tag (<user name="..." id="...">)
