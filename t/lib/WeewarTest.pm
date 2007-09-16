@@ -86,3 +86,44 @@ __game/25828__
 <initialCredits>300</initialCredits>
 <playingSince>Sun Sep 16 12:55:24 CEST 2007</playingSince>
 </game>
+__headquarters__
+<games>
+<game inNeedOfAttention="true">
+<id>27093</id>
+<name>waldo</name>
+<state>running</state>
+<since>0 Minutes</since>
+<link>http://weewar.com/game/27093</link>
+</game>
+<game>
+<id>25828</id>
+<name>nonamegame</name>
+<state>finished</state>
+<result>surrendered</result>
+<since>2 hours 34 Minutes</since>
+<link>http://weewar.com/game/25828</link>
+</game>
+<game>
+<id>27008</id>
+<name>#catalyst lovein</name>
+<state>running</state>
+<since>6 hours 20 Minutes</since>
+<link>http://weewar.com/game/27008</link>
+</game>
+<game>
+<id>27054</id>
+<name>blame schwern</name>
+<state>lobby</state>
+<since>8 hours</since>
+<link>http://weewar.com/game/27054</link>
+</game>
+<game>
+<id>27055</id>
+<name>weewar with nick</name>
+<state>finished</state>
+<result>victory</result>
+<since>6 hours 48 Minutes</since>
+<link>http://weewar.com/game/27055</link>
+</game>
+<inNeedOfAttention>1</inNeedOfAttention>
+</games>

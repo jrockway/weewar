@@ -7,6 +7,8 @@ use LWP::UserAgent;
 use XML::LibXML;
 
 use Weewar::User;
+use Weewar::Game;
+use Weewar::HQ;
 
 our $VERSION = '0.01';
 
@@ -109,6 +111,13 @@ sub game {
     my $game    = Weewar::Game->new({ id => $gameid });
     $game->name; # force the object to be populated
     return $game;   
+}
+
+sub hq {
+    my $class = shift;
+    my ($user, $key) = @_;
+    my $hq = Weewar::HQ->new({ key => $key, user => $user });
+    return $hq;
 }
 
 1;
