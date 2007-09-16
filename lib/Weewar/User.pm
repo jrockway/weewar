@@ -10,16 +10,23 @@ require Weewar::Game;
 use DateTime;
 
 # my own mini WSDL, i guess
-my @ATTRIBUTES = qw/name id/;
-my @ELEMENTS   = qw/points profile
-                    draws victories losses
-                    accountType readyToPlay gamesRunning lastLogin
-                    basesCaptured creditsSpent/;
-my %LISTS = ( favoriteUnits    => ['unit',   'Weewar::Unit' => 'code',      ],
-              preferredPlayers => ['player', 'Weewar::User' => 'name',      ],
-              preferredBy      => ['player', 'Weewar::User' => 'name',      ],
-              games            => ['game',   'Weewar::Game' => ''    , 'id' ],
-            );
+sub _ATTRIBUTES { 
+    qw/name id/ 
+}
+sub _ELEMENTS { 
+    qw/points profile
+       draws victories losses
+       accountType readyToPlay gamesRunning lastLogin
+       basesCaptured creditsSpent/;
+}
+sub _LISTS { 
+    ( favoriteUnits    => ['unit',   'Weewar::Unit' => 'code',      ],
+      preferredPlayers => ['player', 'Weewar::User' => 'name',      ],
+      preferredBy      => ['player', 'Weewar::User' => 'name',      ],
+      games            => ['game',   'Weewar::Game' => ''    , 'id' ],
+    );
+}
+
 
 use base 'Class::Accessor';
 __PACKAGE__->mk_ro_accessors('rating',
@@ -27,7 +34,7 @@ __PACKAGE__->mk_ro_accessors('rating',
         my $a = $_; 
         $a =~ s/([a-z])([A-Z])/$1.'_'.(lc $2)/eg;
         $a; 
-    } (@ATTRIBUTES, @ELEMENTS, keys %LISTS));
+    } (_ATTRIBUTES, _ELEMENTS, keys %{{_LISTS()}}));
 
 sub get {
     my ($self, $what) = @_;
@@ -52,12 +59,12 @@ sub get {
     my $user = [$xml->getElementsByTagName('user')]->[0];
 
     # get stuff that's in the root tag (<user name="..." id="...">)
-    for (@ATTRIBUTES){
+    for ($self->_ATTRIBUTES){
         $self->{$_} = $user->getAttributeNode($_)->value;
     }
 
     # get stuff that's text in a unique element (<points>1502</points>)
-    for (@ELEMENTS){
+    for ($self->_ELEMENTS){
         eval {
             $self->{$_} = [$user->getElementsByTagName($_)]->[0]->textContent;
             $self->{$_} = undef if($self->{$_} eq 'false'); # make 'false' false
@@ -80,6 +87,7 @@ sub get {
     }
 
     # get stuff that's a list (<preferredPlayers><player ...>...</preferred>)
+    my %LISTS = $self->_LISTS;
     for my $key (keys %LISTS){
         my ($name, $class, $attribute, $initname) = @{$LISTS{$key}};
         # name is the name of the element we're inspecting (preferredPlayers)
@@ -98,7 +106,8 @@ sub get {
                          @children];
         
     }
-    
+
+    return $self->{$what};
 }
 
 { package Weewar::Unit;
