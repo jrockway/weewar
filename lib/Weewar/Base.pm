@@ -52,7 +52,7 @@ sub get {
 
                                );
         };
-        carp "Expected a $_ tag" if $@;          
+        carp "Expected a $_ tag: $@" if $@;       
     }
     
     # get stuff that's a list (<preferredPlayers><player ...>...</preferred>)
