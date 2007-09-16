@@ -34,20 +34,10 @@ sub get {
 }
 
 sub _TRANSFORMS {
-    ( lastLogin => sub { 
-          $_[0] =~ /^(\d\d\d\d)-(\d\d)-(\d\d) (\d\d):(\d\d):(\d\d(?:[.]\d+)?)$/;
-          return DateTime->new( year => $1,
-                                month => $2,
-                                day => $3,
-                                hour => $4,
-                                minute => $5,
-                                second => $6,
-                              );
-      },
+    ( lastLogin   => __PACKAGE__->_TRANSFORM_DATE(),
       readyToPlay => __PACKAGE__->_TRANSFORM_BOOLEAN(),
     )
 }
-
 
 sub _get_xml {
     my $self = shift;

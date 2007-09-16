@@ -4,7 +4,7 @@ package Weewar::Base;
 use strict;
 use warnings;
 use Carp;
-use DateTime;
+use DateTime::Format::RSS;
 
 require Weewar;
 require Weewar::User;
@@ -99,6 +99,11 @@ sub _set_element {
 sub _TRANSFORM_BOOLEAN {
     my $self = shift;
     return sub { undef if($_[0] eq 'false') };
+}
+
+sub _TRANSFORM_DATE {
+    my $self = shift;
+    return sub { DateTime::Format::RSS->parse_datetime($_[0]) };
 }
 
 1;
