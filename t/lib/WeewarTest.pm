@@ -67,3 +67,22 @@ __user/jrockway__
 <game>27055</game>
 </games>
 </user>
+__game/25828__
+<game id="25828">
+<name>nonamegame</name>
+<round>15</round>
+<state>finished</state>
+<pendingInvites>false</pendingInvites>
+<pace>86400</pace>
+<type>Basic</type>
+<url>http://weewar.com/game/25828</url>
+<players>
+<player result="surrendered">jrockway</player>
+<player result="victory">marcusramberg</player>
+</players>
+<map>tragictriangle1187105175786</map>
+<mapUrl>http://weewar.com/map/tragictriangle1187105175786</mapUrl>
+<creditsPerBase>100</creditsPerBase>
+<initialCredits>300</initialCredits>
+<playingSince>Sun Sep 16 12:55:24 CEST 2007</playingSince>
+</game>

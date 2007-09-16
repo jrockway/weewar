@@ -103,4 +103,12 @@ sub user {
     return $user;
 }
 
+sub game {
+    my $class   = shift;
+    my $gameid  = shift;
+    my $game    = Weewar::Game->new({ id => $gameid });
+    $game->name; # force the object to be populated
+    return $game;   
+}
+
 1;
