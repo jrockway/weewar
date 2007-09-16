@@ -58,11 +58,12 @@ sub get {
     # get stuff that's a list (<preferredPlayers><player ...>...</preferred>)
     my %LISTS = $self->_LISTS;
     for my $key (keys %LISTS){
-        my ($name, $class, $attribute, $initname) = @{$LISTS{$key}};
+        my ($name, $class, $attribute, $initname, $fixup) = @{$LISTS{$key}};
         # name is the name of the element we're inspecting (preferredPlayers)
         # class is the class of the sub-elements (Weewar::User)
         # attribute is what we pass to class's constructor (undef = nodetext)
         # initname is the key that we pass to the constructor
+        # fixup is a sub that's passed the new object and the XML element
         $initname ||= $attribute; # defaults to the attribute name
         
         my $handler = $attribute ? # if attribute is defined
@@ -71,10 +72,14 @@ sub get {
 
         my @children = [$root_tag->getElementsByTagName($key)]->[0]
                                     ->getElementsByTagName($name);
-        $self->_set_element($key => 
-                            [ map {$class->new({$initname => $handler->($_)}) } 
-                                @children
-                            ]);
+
+        my @objects = map {$class->new({$initname, $handler->($_)})} @children;
+
+        if($fixup){
+            @objects = map { my $xml = shift @children; $fixup->($_, $xml) }
+              @objects;
+        }
+        $self->_set_element($key => \@objects);
     }
     
     return $self->{$what};

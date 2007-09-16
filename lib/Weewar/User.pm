@@ -49,7 +49,7 @@ sub _get_xml {
 sub _root_tag { 'user' }
 
 __PACKAGE__->mk_weewar_accessors;
-__PACKAGE__->mk_ro_accessors('rating');
+__PACKAGE__->mk_ro_accessors('rating', 'result');
 
 package Weewar::Unit; # no need to bless units
 sub new { return $_[1]->{code} }
@@ -130,7 +130,7 @@ Returns the number of basses the user has captured.
 
 Returns the number of credits the user has spent.
 
-=head2 favoriteUnits
+=head2 favorite_units
 
 Returns a list of the user's favorite units.
 
@@ -148,6 +148,14 @@ prefer this user.
 
 Returns a list of C<Weewar::Game> objects representing games that the
 user has played or is playing.
+
+=head2 result
+
+If this User object was returned from C<< Weewar::Game->players >> and
+the game is finished, this field will contain the win/loss status of
+the game.  
+
+For example, the C<result> of the user that won will be C<victory>.
 
 =head1 SEE ALSO
 

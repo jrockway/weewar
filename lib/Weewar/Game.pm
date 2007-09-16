@@ -15,7 +15,7 @@ sub _ELEMENTS {
       /;
 }
 sub _LISTS {
-    ( players => ['player', 'Weewar::User' => '', 'name'] )
+    ( players => ['player', 'Weewar::User' => '', 'name', \&_fix_player] )
 }
 
 sub _TRANSFORMS {
@@ -32,6 +32,15 @@ sub _get_xml {
 }
 
 sub _root_tag { 'game' }
+
+# adds "result" metadata to player object (when game state = finished)
+sub _fix_player {
+    my $player = shift;
+    my $node   = shift;
+    my $result = $node->getAttribute('result');
+    $player->{result} = $result;
+    return $player;
+}
 
 __PACKAGE__->mk_weewar_accessors;
 

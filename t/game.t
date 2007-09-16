@@ -19,8 +19,8 @@ use Test::TableDriven (
                initial_credits   => 300,
                playing_since     => '2007-09-16T12:55:24',
              },
-   lists  => { players => [ { name => 'jrockway' },
-                            { name => 'marcusramberg' },
+   lists  => { players => [ { name => 'jrockway', result => 'surrendered' },
+                            { name => 'marcusramberg', result => 'victory' },
                           ],
              },
 );
