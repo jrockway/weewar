@@ -7,6 +7,7 @@ use warnings;
 use t::lib::WeewarTest;
 use Test::TableDriven (
   scalars => { points          => 1502,
+               rating          => 1502,
                profile         => 'http://weewar.com/user/jrockway',
                draws           => 0,
                victories       => 1,
