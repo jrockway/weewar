@@ -103,7 +103,7 @@ sub _set_element {
 
 sub _TRANSFORM_BOOLEAN {
     my $self = shift;
-    return sub { undef if($_[0] eq 'false') };
+    return sub { return undef if($_[0] eq 'false'); return $_[0] };
 }
 
 sub _TRANSFORM_DATE {
