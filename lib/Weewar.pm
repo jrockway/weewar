@@ -88,7 +88,7 @@ sub _request {
     return $parser->parse_string($content);
 }
 
-=head all_users
+=head2 all_users
 
 Return a list of all active Weewar users as L<Weewar::User> objects.
 The objects are loaded lazily, so this method only causes one request

@@ -157,6 +157,12 @@ the game.
 
 For example, the C<result> of the user that won will be C<victory>.
 
+=head1 INTERNAL METHODS
+
+=head2 get
+
+If you call this method, you will die.
+
 =head1 SEE ALSO
 
 See L<Weewar> for the main docs.

@@ -6,6 +6,28 @@ use warnings;
 
 use Carp;
 
+=head1 NAME
+
+Weewar::HQ - your weewar "headquarters"
+
+=head1 SYNOPSIS
+
+   my $hq = Weewar::HQ->new({ user => 'username',
+                              key  => 'api key',
+                           });
+
+   my @games   = $hq->games; # my games
+   my @need_me = $hq->in_need_of_attention; # games that need my attention
+
+=head1 METHODS
+
+=head2 new({ user => $username, key => $api_key })
+
+Create a new instance and populate it from the Weewar web service.
+user and key are required.
+
+=cut
+
 sub new {
     my ($class, $args) = @_;
     
@@ -41,7 +63,26 @@ sub new {
     return $self;
 }
 
+=head2 games
+
+Returns a list of C<Weewar::Game>s that are in your headquarters.
+
+=cut
+
 sub games { return @{$_[0]->{games}} }
+
+=head2 in_need_of_attention
+
+Returns a list of <Weewar::Game>s that need your attention.
+
+=cut
+
 sub in_need_of_attention { return @{$_[0]->{inNeedOfAttention}} }
+
+=head1 SEE ALSO
+
+See L<Weewar> for more information.
+
+=cut
 
 1;

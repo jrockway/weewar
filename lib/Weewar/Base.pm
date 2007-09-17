@@ -114,3 +114,36 @@ sub _TRANSFORM_DATE {
 }
 
 1;
+
+__END__
+
+=head1 NAME
+
+Weewar::Base - base class for Weewar entities
+
+=head1 SYNOPSIS
+
+   # don't use this
+
+=head1 DESCRIPTION
+
+This basically interperets the mini-language that C<Weewar::Game> and
+C<Weewar::User> use to describe the XML.  It parses the XML and makes
+it into a perl object.
+
+=head1 METHODS
+
+=head2 mk_weewar_accessors
+
+Read the data in the class to make accessors and the custom XML
+parser to populate them.
+
+Read the source if you care.
+
+=head2 get
+
+Overriden to handle read accessors lazily.
+
+=head1 SEE ALSO
+
+L<Weewar> is what you want. 
