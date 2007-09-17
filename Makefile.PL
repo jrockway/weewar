@@ -8,6 +8,7 @@ requires 'LWP::UserAgent';
 requires 'Class::Accessor';
 requires 'DateTime::Format::RSS';
 requires 'DateTime';
+requires 'Readonly';
 
 build_requires 'Test::More';
 build_requires 'ok';
