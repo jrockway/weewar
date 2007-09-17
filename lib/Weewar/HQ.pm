@@ -4,20 +4,42 @@ package Weewar::HQ;
 use strict;
 use warnings;
 
-use base 'Weewar::Base';
+use Carp;
 
-sub _ATTRIBUTES { }
-sub _ELEMENTS { qw/inNeedOfAttention/ }
-sub _LISTS {}
+sub new {
+    my ($class, $args) = @_;
+    
+    croak 'need hashref of args' unless ref $args eq 'HASH';
+    croak 'need key'             unless $args->{key};
+    croak 'need user'            unless $args->{user};
 
-sub _get_xml {
-    return Weewar->_request('headquarters'); # NOT!. hindquarters.
+    my $self = bless $args => $class;
+
+    # get XML
+    my $xml = Weewar->_request('headquarters');
+    my @game_nodes = $xml->findnodes('/games/game');
+
+    my @needs_attention;
+    my @games;
+    for my $game_node (@game_nodes){
+        my $id = [$game_node->findnodes('id')]->[0]->textContent;
+        my $needs_attention = eval { 
+            $game_node->getAttributeNode('inNeedOfAttention')->textContent
+        };
+
+        my $game = Weewar::Game->new({ id => $id });
+        push @games, $game;
+        push @needs_attention, $game 
+          if $needs_attention && $needs_attention eq 'true';
+    }
+
+    $self->{games} = \@games;
+    $self->{inNeedOfAttention} = \@needs_attention;
+    
+    return $self;
 }
 
-sub _root_tag { 'games' }
-
-sub _TRANSFORMS {}
-
-__PACKAGE__->mk_weewar_accessors;
+sub games { return @{$_[0]->{games}} }
+sub in_need_of_attention { return @{$_[0]->{inNeedOfAttention}} }
 
 1;

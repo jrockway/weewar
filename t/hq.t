@@ -6,14 +6,16 @@ use warnings;
 
 use t::lib::WeewarTest;
 use Test::TableDriven (
-  scalars => { in_need_of_attention  => 1,
+  lists   => { games => [map +{ id => $_ }, qw/27093 25828 27008 27054 27055/],
+               in_need_of_attention => [{ id => 27093 }],
              },
 );
 
 my $hq = Weewar->hq(jrockway => 'some made up API key what do i care');
-sub scalars {
+
+sub lists {
     my $method = shift;
-    return $hq->$method;
+    return [$hq->$method];
 }
 
 runtests;
