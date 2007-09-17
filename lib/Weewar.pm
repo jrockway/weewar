@@ -56,11 +56,25 @@ requests).  If this changes, then this API will change a bit.
 
 =cut
 
+{ package Weewar::UA;
+  use base 'LWP::UserAgent';
+  sub new {
+      my ($class, $args) = @_;
+      $args ||= {};
+      bless $args => $class;
+  }
+  sub get_basic_credentials {
+      my $self = shift;
+      return unless $self->{username};
+      return (map {$self->{$_}} qw/username password/);
+  }
+}
+
 # separate method so that WeewarTest can override the HTTP part
 sub _get {
     my ($class, $path, $args) = @_;
     
-    my $ua = LWP::UserAgent->new;
+    my $ua = Weewar::UA->new($args);
     my $res = $ua->get("http://$server/$base/$path");
     
     croak 'request error: '. $res->status_line if !$res->is_success;

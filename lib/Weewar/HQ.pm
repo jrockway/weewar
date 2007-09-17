@@ -16,13 +16,15 @@ sub new {
     my $self = bless $args => $class;
 
     # get XML
-    my $xml = Weewar->_request('headquarters');
+    my $xml = Weewar->_request('headquarters', { username => $args->{user}, 
+                                                 password => $args->{key},
+                                               });
     my @game_nodes = $xml->findnodes('/games/game');
 
     my @needs_attention;
     my @games;
     for my $game_node (@game_nodes){
-        my $id = [$game_node->findnodes('id')]->[0]->textContent;
+        my $id = [$game_node->getElementsByTagName('id')]->[0]->textContent;
         my $needs_attention = eval { 
             $game_node->getAttributeNode('inNeedOfAttention')->textContent
         };
