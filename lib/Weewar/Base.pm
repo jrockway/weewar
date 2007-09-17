@@ -52,7 +52,9 @@ sub get {
 
                                );
         };
-        carp "Expected a $_ tag: $@" if $@;       
+        if($_ ne 'playingSince'){ # (special cases)++
+            carp "Expected a $_ tag: $@" if $@;       
+        }
     }
     
     # get stuff that's a list (<preferredPlayers><player ...>...</preferred>)
